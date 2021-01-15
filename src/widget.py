@@ -1,8 +1,9 @@
 from abc import abstractmethod
+
+from pygame import Surface
 from pygame.rect import Rect
 
 from src.object import Object
-from src.screen import Screen
 
 
 class Widget(Object):
@@ -10,21 +11,21 @@ class Widget(Object):
         super().__init__(parent)
 
         if self._parent:
-            if not parent.rect().contains(rect):
+            if not parent.rect.contains(rect):
                 raise RuntimeError()
 
         self._rect = rect
 
-    def update(self, screen: Screen):
-        self.draw(screen)
-        self.__draw_children(screen)
+    def update(self, surface: Surface):
+        self.draw(surface)
+        self.__draw_children(surface)
 
-    def __draw_children(self, screen: Screen):
-        for children in self.children():
-            children.update(screen)
+    def __draw_children(self, surface: Surface):
+        for children in self.children:
+            children.update(surface)
 
     @abstractmethod
-    def draw(self, screen: Screen):
+    def draw(self, surface: Surface):
         pass
 
     @property
