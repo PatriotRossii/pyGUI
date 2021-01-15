@@ -1,22 +1,9 @@
-import pygame
-from pygame import Rect
-
-from src.event_loop import EventLoop
+from src.application import Application
 from src.screen import Screen
-from src.widgets.button import Button
 
-loop = EventLoop()
 screen = Screen((500, 500))
 
-button = Button(Rect(0, 0, 50, 50), screen)
-clock = pygame.time.Clock()
+app = Application("My cute application", 30)
+app.set_screen(screen)
 
-while True:
-    screen.update(screen.surface)
-
-    event = loop.get()
-    if event.type == pygame.QUIT:
-        break
-
-    pygame.display.flip()
-    clock.tick(60)
+app.run()
