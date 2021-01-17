@@ -20,6 +20,7 @@ class Widget(Object):
     def _handle_event(self, event: Event):
         if hasattr(event, "pos"):
             if self._rect.collidepoint(*event.pos):
+                super()._handle_event(event)
                 return event
         return None
 

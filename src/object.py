@@ -7,7 +7,8 @@ class Object(ABC):
         self._parent = parent
         self._children = []
 
-        self._event_types: list[int] = []
+        self._event_types: list[int, list] = []
+        self._connections = dict()
 
         if self._parent:
             self._parent.add_child(self)
@@ -15,9 +16,13 @@ class Object(ABC):
     def add_child(self, child):
         self._children.append(child)
 
-    @abstractmethod
+    def connect(self, event_type, callback):
+        self._connections[event_type] =\
+            self._connections.get(event_type, []) + [callback]
+
     def _handle_event(self, event: Event):
-        pass
+        for callback in self._connections[event.type]:
+            callback(event)
 
     @property
     def children(self):
