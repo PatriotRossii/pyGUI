@@ -1,5 +1,8 @@
+import sys
+
 import pygame
 from pygame import Surface
+from pygame.event import Event
 
 from src.event_loop import EventLoop
 from src.widget import Widget
@@ -16,10 +19,19 @@ class Application(Widget):
         self._screen = None
         self._fps = None
 
+        self._event_types = [
+            pygame.QUIT
+        ]
+        self._loop.add_subscribers(self, self._event_types)
+
         self._clock = pygame.time.Clock()
         self.set_fps(fps)
 
         self.set_name(name)
+
+    def _handle_event(self, event: Event):
+        if event.type == pygame.QUIT:
+            sys.exit(0)
 
     def set_screen(self, screen):
         self._screen = screen
@@ -32,9 +44,7 @@ class Application(Widget):
         while is_running:
             self._screen.update(self._screen.surface)
 
-            event = self._loop.get()
-            if event.type == pygame.QUIT:
-                break
+            self._loop.handle()
 
             pygame.display.flip()
             self._clock.tick(self._fps)

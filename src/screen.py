@@ -1,5 +1,6 @@
 import pygame
 from pygame import Surface
+from pygame.event import Event
 
 from src.widget import Widget
 
@@ -16,6 +17,9 @@ class Screen(Widget):
 
         self.__screen = pygame.display.set_mode(size)
         self.__rect = pygame.Rect(0, 0, *size)
+
+    def _handle_event(self, event: Event):
+        pass
 
     @property
     def surface(self):
