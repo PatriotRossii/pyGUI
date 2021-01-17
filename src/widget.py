@@ -1,6 +1,7 @@
 from abc import abstractmethod
 
 from pygame import Surface
+from pygame.event import Event
 from pygame.rect import Rect
 
 from src.object import Object
@@ -15,6 +16,12 @@ class Widget(Object):
                 raise RuntimeError()
 
         self._rect = rect
+
+    def _handle_event(self, event: Event):
+        if hasattr(event, "pos"):
+            if self._rect.collidepoint(*event.pos):
+                return event
+        return None
 
     def update(self, surface: Surface):
         self.draw(surface)

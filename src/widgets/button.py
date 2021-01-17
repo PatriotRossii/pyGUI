@@ -8,6 +8,9 @@ from src.widget import Widget
 
 class Button(Widget):
     def _handle_event(self, event: Event):
+        event = super()._handle_event(event)
+        if event is None:
+            return
         if event.type == pygame.MOUSEBUTTONUP:
             print("Clicked button")
 
